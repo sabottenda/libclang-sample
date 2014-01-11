@@ -21,7 +21,7 @@ $(TARGET): $(TARGET).cc
 run: $(SAMPLES_OUT)
 
 $(SAMPLE_DIR)/%_out.txt: $(TARGET)
-	-./$(TARGET) $(SAMPLE_DIR)/$*.cc $(shell echo $*  | sed 's/.*_l\([0-9]\+\)c\([0-9]\+\).*/\1 \2/') > $@ 2>&1
+	-./$(TARGET) $(SAMPLE_DIR)/$*.cc $(shell echo $*  | sed 's/.*_l\([0-9][0-9]*\)c\([0-9][0-9]*\).*/\1 \2/') > $@ 2>&1
 
 clean: 
 	@find . -name '*~' | xargs rm -f
