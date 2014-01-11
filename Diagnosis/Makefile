@@ -1,7 +1,12 @@
 
+UNAME_S:=$(shell uname -s)
+
 TARGET=Diagnosis
 CXX=clang
 CFLAGS=-std=c++11 -O2 -Wall -Wextra
+ifeq ($(UNAME_S), Darwin)
+CFLAGS+=-stdlib=libstdc++
+endif
 FLAGS=`llvm-config --cxxflags --ldflags` -lclang $(CFLAGS)
 
 SAMPLE_DIR=samples
