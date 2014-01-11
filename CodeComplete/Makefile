@@ -5,7 +5,8 @@ TARGET=CodeComplete
 CXX=clang
 CFLAGS=-std=c++11 -O2 -Wall -Wextra
 ifeq ($(UNAME_S), Darwin)
-CFLAGS+=-stdlib=libstdc++
+CLANG_STDLIB:=-stdlib=libstdc++
+CFLAGS+=$(CLANG_STDLIB)
 endif
 FLAGS=`llvm-config --cxxflags --ldflags` -lclang $(CFLAGS)
 
@@ -21,7 +22,7 @@ $(TARGET): $(TARGET).cc
 run: $(SAMPLES_OUT)
 
 $(SAMPLE_DIR)/%_out.txt: $(TARGET)
-	-./$(TARGET) $(SAMPLE_DIR)/$*.cc $(shell echo $*  | sed 's/.*_l\([0-9][0-9]*\)c\([0-9][0-9]*\).*/\1 \2/') > $@ 2>&1
+	-./$(TARGET) $(SAMPLE_DIR)/$*.cc $(shell echo $*  | sed 's/.*_l\([0-9][0-9]*\)c\([0-9][0-9]*\).*/\1 \2/') $(CLANG_STDLIB) > $@ 2>&1
 
 clean: 
 	@find . -name '*~' | xargs rm -f

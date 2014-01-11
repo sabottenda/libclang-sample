@@ -5,7 +5,8 @@ TARGET=Diagnosis
 CXX=clang
 CFLAGS=-std=c++11 -O2 -Wall -Wextra
 ifeq ($(UNAME_S), Darwin)
-CFLAGS+=-stdlib=libstdc++
+CLANG_STDLIB:=-stdlib=libstdc++
+CFLAGS+=$(CLANG_STDLIB)
 endif
 FLAGS=`llvm-config --cxxflags --ldflags` -lclang $(CFLAGS)
 
@@ -21,7 +22,7 @@ $(TARGET): $(TARGET).cc
 run: $(SAMPLES_OUT)
 
 $(SAMPLE_DIR)/%_out.txt: $(TARGET) $(SAMPLE_DIR)/%.cc
-	./$(TARGET) $(SAMPLE_DIR)/$*.cc `llvm-config --cxxflags` > $@ 2>&1
+	./$(TARGET) $(SAMPLE_DIR)/$*.cc `llvm-config --cxxflags` $(CLANG_STDLIB) > $@ 2>&1
 
 clean: 
 	@find . -name '*~' | xargs rm -f
